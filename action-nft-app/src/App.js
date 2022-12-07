@@ -66,7 +66,7 @@ const App = () => {
         const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, myEpicNft.abi, signer);
 
         console.log("Going to pop wallet now to pay gas...");
-        let nftTxn = await connectedContract.makeAnEpicNft();
+        let nftTxn = await connectedContract.makeAnEpicNFT();
 
         console.log("Mining...please wait.");
         await nftTxn.wait();
