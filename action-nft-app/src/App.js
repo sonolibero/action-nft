@@ -108,11 +108,17 @@ const App = () => {
     }
   }
 
-  const renderNotConnectedContainer = () => (
+  const renderConnectWallet = () => (
     <button onClick={connectWallet} className="cta-button connect-wallet-button">
       Connect to Wallet
     </button>
   );
+
+  const renderMint = () => (
+    <button onClick={askContractToMintNft} className="cta-button mint-button">
+      Mint ACTION
+    </button>
+  )
 
   useEffect(() => {
     checkIfWalletIsConnected();
@@ -126,11 +132,7 @@ const App = () => {
           <p className="sub-text">
             Act today. Do not wait tmrw!
           </p>
-          {currentAccount === "" ? (
-            renderNotConnectedContainer()
-          ) : (
-            <button onClick={askContractToMintNft} className="cta-button mint-button">Mint ACTION</button>
-          )}
+          {currentAccount === "" ? ( renderConnectWallet() ) : ( renderMint() )}
         </div>
         <div className="footer-container">
           <img alt="Twitter Logo" className="twitter-logo" src={twitterLogo} />
