@@ -88,6 +88,16 @@ const App = () => {
       const { ethereum } = window;
 
       if(ethereum) {
+        let chainId = await ethereum.request({ method: 'eth_chainId' });
+        console.log("Connected to chain " + chainId);
+
+        // String, hex code of the chainId of the Goerli test network
+        const goerliChainId = "0x5"; 
+        if (chainId !== goerliChainId) {
+          alert("please connect to Goerli Test Network!");
+          return;
+        }
+
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
         const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, myEpicNft.abi, signer);
@@ -116,7 +126,7 @@ const App = () => {
 
   const renderMint = () => (
     <button onClick={askContractToMintNft} className="cta-button mint-button">
-      Mint ACTION
+      mint your ACTION
     </button>
   )
 
