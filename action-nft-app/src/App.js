@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './styles/App.css';
 import twitterLogo from './assets/twitter-logo.svg';
 
@@ -9,6 +9,17 @@ const OPENSEA_LINK = '';
 const TOTAL_MINT_COUNT = 50;
 
 const App = () => {
+  const checkIfWalletIsConnected = () => {
+    const { ethereum } = window;
+
+    if(!ethereum) {
+      console.log("install metamask");
+      return;
+    }
+    else {
+      console.log("we have the ethereum object", ethereum);
+    }
+  }
   // Render Methods
   const renderNotConnectedContainer = () => (
     <button className="cta-button connect-wallet-button">

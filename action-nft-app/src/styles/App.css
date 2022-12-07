@@ -26,7 +26,7 @@
 .sub-text {
   font-family: JetBrains Mono;
   font-size: 25px;
-  color: white;
+  color: #f3fAf3;
 }
 
 .gradient-text {
@@ -46,7 +46,7 @@
   cursor: pointer;
   font-size: 16px;
   font-weight: bold;
-  color: white;
+  color: #f3fAf3;
 }
 
 .connect-wallet-button {
@@ -56,7 +56,7 @@
 }
 
 .mint-button {
-  background: -webkit-linear-gradient(left, #a200d6, #ff6fdf);
+  background: -webkit-linear-gradient(left, #FFDD00, #FE484C);
   background-size: 200% 200%;
   animation: gradient-animation 4s ease infinite;
   margin-right: 15px;
