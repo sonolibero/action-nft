@@ -34,8 +34,26 @@ const App = () => {
     }
   }
 
+  const connectWallet = async () => {
+    try {
+      const { ethereum } = window;
+
+      if(!ethereum) {
+        alert("install metamask");
+        return;
+      }
+
+      const accounts = await ethereum.request({ method: "eth_requestAccounts" });
+
+      console.log(accounts[0], "connected");
+      setCurrentAccount(accounts[0]);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const renderNotConnectedContainer = () => (
-    <button className="cta-button connect-wallet-button">
+    <button onClick={connectWallet} className="cta-button connect-wallet-button">
       Connect to Wallet
     </button>
   );
@@ -52,7 +70,11 @@ const App = () => {
           <p className="sub-text">
             Act today. Do not wait tmrw!
           </p>
-          {renderNotConnectedContainer()}
+          {currentAccount === "" ? (
+            renderNotConnectedContainer()
+          ) : (
+            <button onClick={null} className="cta-button mint-button">Mint ACTION</button>
+          )}
         </div>
         <div className="footer-container">
           <img alt="Twitter Logo" className="twitter-logo" src={twitterLogo} />
