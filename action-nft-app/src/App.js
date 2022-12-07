@@ -71,7 +71,7 @@ const App = () => {
 
         connectedContract.on("NewEpicNFTMinted", (from, tokenId) => {
           console.log(from, tokenId.toNumber())
-          alert(`Sup bro! Your NFT is on its way to your wallet. Here's the link to opensea (may take some minutes to display): https://testnets.opensea.io/assets/${CONTRACT_ADDRESS}/${tokenId.toNumber()}`)
+          alert(`sup bro! your NFT is on its way to your wallet. here's the link to opensea (may take some minutes to display): https://testnets.opensea.io/assets/${CONTRACT_ADDRESS}/${tokenId.toNumber()}`)
         });
 
         console.log("Setup event listener!")
@@ -106,7 +106,7 @@ const App = () => {
         console.log("Going to pop wallet now to pay gas...");
         let nftTxn = await connectedContract.makeAnEpicNFT();
 
-        console.log("Mining...please wait.");
+        alert("minting in progress...please wait.");
         await nftTxn.wait();
 
         console.log(`Mined, see transaction: https://goerli.etherscan.io/tx/${nftTxn.hash}`);
