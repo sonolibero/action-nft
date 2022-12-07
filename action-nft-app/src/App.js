@@ -7,6 +7,7 @@ import myEpicNft from './utils/MyEpicNFT.json';
 // Constants
 const TWITTER_HANDLE = 'verci_eth';
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
+const COLLECTION_LINK = "https://testnets.opensea.io/collection/actionnft-v3";
 const OPENSEA_LINK = '';
 const TOTAL_MINT_COUNT = 50;
 const CONTRACT_ADDRESS = "0x8b6EdAD9FE856ea29592AaD5780F4Cb465Aa1398";
@@ -138,7 +139,7 @@ const App = () => {
     <div className="App">
       <div className="container">
         <div className="header-container">
-          <p className="header gradient-text">ACTION Collection</p>
+          <a className="header gradient-text" href={COLLECTION_LINK} target="_blank">ACTION Collection</a>
           <p className="sub-text">
             Act today. Do not wait tmrw!
           </p>
