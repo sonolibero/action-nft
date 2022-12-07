@@ -9,6 +9,7 @@ const TWITTER_HANDLE = 'verci_eth';
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 const OPENSEA_LINK = '';
 const TOTAL_MINT_COUNT = 50;
+const CONTRACT_ADDRESS = "0x8b6EdAD9FE856ea29592AaD5780F4Cb465Aa1398";
 
 const App = () => {
   const [currentAccount, setCurrentAccount] = useState("");
@@ -30,6 +31,8 @@ const App = () => {
       const account = accounts[0];
       console.log("authorized account", account);
       setCurrentAccount(account);
+
+      setupEventListener()
     }
     else {
       console.log("no authorized account");
@@ -49,14 +52,38 @@ const App = () => {
 
       console.log(accounts[0], "connected");
       setCurrentAccount(accounts[0]);
+
+      setupEventListener()
     } catch (error) {
       console.log(error);
     }
   }
 
-  const askContractToMintNft = async () => {
-    const CONTRACT_ADDRESS = "0x8b6EdAD9FE856ea29592AaD5780F4Cb465Aa1398";
+  const setupEventListener = async () => {
+    try {
+      const { ethereum } = window;
 
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, myEpicNft.abi, signer);
+
+        connectedContract.on("NewEpicNFTMinted", (from, tokenId) => {
+          console.log(from, tokenId.toNumber())
+          alert(`Sup bro! Your NFT is on its way to your wallet. Here's the link to opensea (may take some minutes to display): https://testnets.opensea.io/assets/${CONTRACT_ADDRESS}/${tokenId.toNumber()}`)
+        });
+
+        console.log("Setup event listener!")
+
+      } else {
+        console.log("ethereum object does not exists");
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const askContractToMintNft = async () => {
     try {
       const { ethereum } = window;
 
