@@ -27,6 +27,10 @@ const App = () => {
     </button>
   );
 
+  useEffect(() => {
+    checkIfWalletIsConnected();
+  })
+
   return (
     <div className="App">
       <div className="container">
