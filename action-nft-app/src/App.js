@@ -139,9 +139,9 @@ const App = () => {
     <div className="App">
       <div className="container">
         <div className="header-container">
-          <a className="header gradient-text" href={COLLECTION_LINK} target="_blank">ACTION Collection</a>
+          <a className="header gradient-text" href={COLLECTION_LINK} target="_blank">ACTION collection</a>
           <p className="sub-text">
-            Act today. Do not wait tmrw!
+            act today, do not wait tmrw!
           </p>
           {currentAccount === "" ? ( renderConnectWallet() ) : ( renderMint() )}
         </div>
