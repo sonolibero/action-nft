@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './styles/App.css';
 import twitterLogo from './assets/twitter-logo.svg';
+import { ethers } from "ethers";
+import myEpicNft from './utils/MyEpicNFT.json';
 
 // Constants
 const TWITTER_HANDLE = 'verci_eth';
@@ -52,6 +54,33 @@ const App = () => {
     }
   }
 
+  const askContractToMintNft = async () => {
+    const CONTRACT_ADDRESS = "0xC74387964C6814f5120fCD87C29C09369127C4f2";
+
+    try {
+      const { ethereum } = window;
+
+      if(ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, myEpicNft.abi, signer);
+
+        console.log("Going to pop wallet now to pay gas...");
+        let nftTxn = await connectedContract.makeAnEpicNft();
+
+        console.log("Mining...please wait.");
+        await nftTxn.wait();
+
+        console.log(`Mined, see transaction: https://goerli.etherscan.io/tx/${nftTxn.hash}`);
+      }
+      else {
+        console.log("ethereum object does not exists")
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   const renderNotConnectedContainer = () => (
     <button onClick={connectWallet} className="cta-button connect-wallet-button">
       Connect to Wallet
@@ -73,7 +102,7 @@ const App = () => {
           {currentAccount === "" ? (
             renderNotConnectedContainer()
           ) : (
-            <button onClick={null} className="cta-button mint-button">Mint ACTION</button>
+            <button onClick={askContractToMintNft} className="cta-button mint-button">Mint ACTION</button>
           )}
         </div>
         <div className="footer-container">
