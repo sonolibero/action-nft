@@ -131,13 +131,9 @@ const App = () => {
 
   const renderMint = () => (
     <button onClick={askContractToMintNft} className="cta-button mint-button">
-      {minting ? "minting..." : "mint your ACTION"}
+      {minting ? "minting... ⏳" : "mint your ACTION"}
     </button>
   )
-
-  const Emoji = () => (
-    <span>⏳</span>
-  );
 
   useEffect(() => {
     checkIfWalletIsConnected();
@@ -152,7 +148,6 @@ const App = () => {
             act today, do not wait tmrw!
           </p>
           {currentAccount === "" ? ( renderConnectWallet() ) : ( renderMint() )}
-          {minting === true ? ( Emoji() ) : null}
         </div>
         <div className="footer-container">
           <img alt="Twitter Logo" className="twitter-logo" src={twitterLogo} />
