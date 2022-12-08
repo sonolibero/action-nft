@@ -14,23 +14,31 @@ contract MyEpicNFT is ERC721URIStorage {
   Counters.Counter private _tokenIds;
 
   string baseSvg1 = "<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='xMinYMin meet' viewBox='0 0 350 100'><style>.base { fill: #";
-  string baseSvg2 = "; font-family: &apos;Press Start 2P&apos;; font-size: 14px; }</style><rect width='100%' height='100%' fill='#262626' /><text x='50%' y='50%' class='base' dominant-baseline='middle' text-anchor='middle'>";
+  string baseSvg2 = "; font-family: &apos;Press Start 2P&apos;; font-size: 14px; }</style><rect width='100%' height='100%' fill='#";
+  string baseSvg3 = "' /><text x='50%' y='50%' class='base' dominant-baseline='middle' text-anchor='middle'>";
 
-  string[] colors = ["2DD2FF", "45E773", "FFDD00"];
+  string[] colors = ["2DD2FF", "45E773", "FFDD00", "FE484C"];
+  string[] backgrounds = ["F3FAF3", "262626"];
   string[] firstWords = ["today"];
   string[] secondWords = ["Iwill"];
-  string[] thirdWords = ["Fart", "Poo", "Pee", "Meditate", "SetGoals", "CareMyself", "BeGrateful", "BeGreat", "Learn", "ThankMom", "ThankDad", "Exercise", "Focus", "Reflect", "Journal"];
+  string[] thirdWords = ["Fart", "Poo", "Pee", "Meditate", "SetGoals", "CareMyself", "BeGrateful", "BeGreat", "BeMyself", "Learn", "ThankMom", "ThankDad", "Exercise", "Focus", "Reflect", "Journal", "BuySHIBA", "BuyNFT", "BuyDOGE", "JoinDAO"];
 
   event NewEpicNFTMinted(address sender, uint256 tokenId);
 
   constructor() ERC721 ("ActionNFT", "ACTION") {
-    console.log("act today, do not wait tmrw! share your results on twitter w/ @verci_eth");
+    console.log("take your ACTION and post a picture on twitter w/ @verci_eth");
   }
 
   function pickRandomColor(uint256 tokenId) public view returns (string memory) {
     uint256 rand = random(string(abi.encodePacked("COLOR", Strings.toString(tokenId))));
     rand = rand % colors.length;
     return colors[rand];
+  }
+
+  function pickRandomBackground(uint256 tokenId) public view returns (string memory) {
+    uint256 rand = random(string(abi.encodePacked("BACKGROUND", Strings.toString(tokenId))));
+    rand = rand % backgrounds.length;
+    return backgrounds[rand];
   }
 
   function pickRandomFirstWord(uint256 tokenId) public view returns (string memory) {
@@ -59,12 +67,13 @@ contract MyEpicNFT is ERC721URIStorage {
     uint256 newItemId = _tokenIds.current();
 
     string memory color = pickRandomColor(newItemId);
+    string memory background = pickRandomBackground(newItemId);
     string memory first = pickRandomFirstWord(newItemId);
     string memory second = pickRandomSecondWord(newItemId);
     string memory third = pickRandomThirdWord(newItemId);
     string memory combinedWord = string(abi.encodePacked(first, second, third));
 
-    string memory finalSvg = string(abi.encodePacked(baseSvg1, color, baseSvg2, combinedWord, "</text></svg>"));
+    string memory finalSvg = string(abi.encodePacked(baseSvg1, color, baseSvg2, background, baseSvg3, combinedWord, "</text></svg>"));
 
     string memory json = Base64.encode(
         bytes(

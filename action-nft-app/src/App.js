@@ -8,12 +8,12 @@ import myEpicNft from './utils/MyEpicNFT.json';
 const TWITTER_HANDLE = 'verci_eth';
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 const COLLECTION_LINK = "https://testnets.opensea.io/collection/actionnft-v3";
-const OPENSEA_LINK = '';
 const TOTAL_MINT_COUNT = 50;
 const CONTRACT_ADDRESS = "0x8b6EdAD9FE856ea29592AaD5780F4Cb465Aa1398";
 
 const App = () => {
   const [currentAccount, setCurrentAccount] = useState("");
+  const [minting, setMinting] = useState(false);
 
   const checkIfWalletIsConnected = async () => {
     const { ethereum } = window;
@@ -71,6 +71,7 @@ const App = () => {
 
         connectedContract.on("NewEpicNFTMinted", (from, tokenId) => {
           console.log(from, tokenId.toNumber())
+          setMinting(false);
           alert(`sup bro! your NFT is on its way to your wallet. here's the link to opensea (may take some minutes to display): https://testnets.opensea.io/assets/${CONTRACT_ADDRESS}/${tokenId.toNumber()}`)
         });
 
@@ -86,6 +87,9 @@ const App = () => {
 
   const askContractToMintNft = async () => {
     try {
+      if(minting) {
+        return;
+      }
       const { ethereum } = window;
 
       if(ethereum) {
@@ -106,7 +110,7 @@ const App = () => {
         console.log("Going to pop wallet now to pay gas...");
         let nftTxn = await connectedContract.makeAnEpicNFT();
 
-        alert("minting in progress...please wait.");
+        setMinting(true);
         await nftTxn.wait();
 
         console.log(`Mined, see transaction: https://goerli.etherscan.io/tx/${nftTxn.hash}`);
@@ -127,9 +131,13 @@ const App = () => {
 
   const renderMint = () => (
     <button onClick={askContractToMintNft} className="cta-button mint-button">
-      mint your ACTION
+      {minting ? "minting..." : "mint your ACTION"}
     </button>
   )
+
+  const Emoji = () => (
+    <span>⏳</span>
+  );
 
   useEffect(() => {
     checkIfWalletIsConnected();
@@ -144,6 +152,7 @@ const App = () => {
             act today, do not wait tmrw!
           </p>
           {currentAccount === "" ? ( renderConnectWallet() ) : ( renderMint() )}
+          {minting === true ? ( Emoji() ) : null}
         </div>
         <div className="footer-container">
           <img alt="Twitter Logo" className="twitter-logo" src={twitterLogo} />
